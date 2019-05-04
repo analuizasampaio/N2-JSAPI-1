@@ -11,18 +11,15 @@ const autor = document.createElement('div');
 autor.setAttribute('class', 'authors');
 root.appendChild(autor);
 
-const request = new XMLHttpRequest;
-
-request.open('GET', 'https://randomuser.me/api/?results=10', true);
-request.onload = function(){
-    const data = JSON.parse (this.response);
+fetch('https://randomuser.me/api/?results=10')
+.then(function(response){
+    return response.json()
+})
+.then(function(data){
     console.log(data)
-    if (request.status >= 200 && request.status < 400){
     console.log('top')
 
-
-    data.results.forEach(element => {        
-    
+    data.results.forEach(element => { 
         const card = document.createElement("div")
         card.setAttribute("class", "card")
         autor.appendChild(card)
@@ -46,11 +43,8 @@ request.onload = function(){
         let tel = document.createElement('p')
         tel.innerHTML = element.cell
         card.appendChild(tel)
-
-        
-    });    
-        
-    }
-
-}
-request.send()
+    })  
+})
+.catch(function(erro){
+    console.log(erro)
+})
